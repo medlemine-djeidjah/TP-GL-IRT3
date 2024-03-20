@@ -4,6 +4,8 @@
 ## 23059
 ## 23043
 
+
+
 ### Le lien du repertoire **TP-IRT3**
 
 ```
@@ -26,3 +28,8 @@ git@github.com:Medlemine-djeidjah/TP-GL-IRT3.git
 
 
  
+* Geolocalisation :determiner la position geograghique actuelle de l'utilisateur .
+* Authentification : permet a l'utilisateur de cree un compte et de gerer son interventions.
+* Demande d'une intervention :
+* prise de rendez vous:resever des rendez vous avec des mecanicien.
+* Inscription et gesion de compte: permettre aux utilisateurs et mecaniciens de cree et     gerer leur profile 
