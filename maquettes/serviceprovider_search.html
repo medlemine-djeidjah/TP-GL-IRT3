@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roadside Assistance Service</title>
+  <title>Mecanie Aide - Search Service Providers</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome for icons -->
@@ -15,60 +15,6 @@
 </head>
 <body>
 
-<div class="container">
-  <h1 class="my-5 text-center">Find Nearby Service Providers</h1>
-
-  <!-- Search Form -->
-  <form id="searchForm">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Enter location..." id="locationInput">
-      <button class="btn btn-primary" type="submit">Search</button>
-    </div>
-  </form>
-
-  <!-- Results Container -->
-  <div id="results" class="mt-5">
-    <!-- Results will be displayed here -->
-  </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-  // Dummy data (replace with actual data from backend)
-  const serviceProviders = [
-    { name: "Service Provider 1", location: "123 Main St", phone: "123-456-7890" },
-    { name: "Service Provider 2", location: "456 Elm St", phone: "456-789-0123" },
-    { name: "Service Provider 3", location: "789 Oak St", phone: "789-012-3456" }
-  ];
-
-  // Function to display search results
-  function displayResults(results) {
-    const resultsContainer = $("#results");
-    resultsContainer.empty();
-    if (results.length === 0) {
-      resultsContainer.append("<p>No results found.</p>");
-    } else {
-      const list = $("<ul>").addClass("list-group");
-      results.forEach(provider => {
-        const listItem = $("<li>").addClass("list-group-item")
-                                   .text(`${provider.name} - ${provider.location} - ${provider.phone}`);
-        list.append(listItem);
-      });
-      resultsContainer.append(list);
-    }
-  }
-
-  // Function to handle form submission
-  $("#searchForm").submit(function(event) {
-    event.preventDefault();
-    const location = $("#locationInput").val().trim().toLowerCase();
-    const filteredResults = serviceProviders.filter(provider => provider.location.toLowerCase().includes(location));
-    displayResults(filteredResults);
-  });
-</script>
 
 </body>
 </html>
