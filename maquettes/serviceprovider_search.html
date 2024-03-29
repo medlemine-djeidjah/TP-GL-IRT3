@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadside Assistance Service</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="./logo.png" alt="Logo" class="navbar-brand" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+<div class="container mt-4">
+  <h1 class="my-5 text-center text-black">Find Nearby Service Providers</h1>
+
+  <form id="searchForm">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Enter location... (TVZ, Lksar, etc...)" id="locationInput">
+      <button class="btn btn-warning" type="submit">Search</button>
+    </div>
+  </form>
+
+  <div id="results" class="mt-5">
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  const serviceProviders = [
+    { name: "Service Provider 1", location: "TVZ ministre Affaire etranger", phone: "+22231102186" },
+    { name: "Service Provider 2", location: "Lksar Hopital Millitaire", phone: "+22232003232" },
+    { name: "Service Provider 3", location: "Soukouk Aiin TAlh", phone: "+22246434303" }
+  ];
+
+  function displayResults(results) {
+    const resultsContainer = $("#results");
+    resultsContainer.empty();
+    if (results.length === 0) {
+      resultsContainer.append("<p>No results found.</p>");
+    } else {
+      const list = $("<ul>").addClass("list-group");
+      results.forEach(provider => {
+        const listItem = $("<li>").addClass("list-group-item");
+        const providerDetails = `
+          <div class="mb-3">
+            <h5 class="mb-0">${provider.name}</h5>
+            <p class="mb-0">Location: ${provider.location}</p>
+            <p class="mb-0">Phone: ${provider.phone}</p>
+          </div>
+        `;
+        listItem.html(providerDetails);
+        list.append(listItem);
+      });
+      resultsContainer.append(list);
+    }
+  }
+
+  $("#searchForm").submit(function(event) {
+    event.preventDefault();
+    const location = $("#locationInput").val().trim().toLowerCase();
+    const filteredResults = serviceProviders.filter(provider => provider.location.toLowerCase().includes(location));
+    displayResults(filteredResults);
+  });
+</script>
+
+</body>
+</html>
