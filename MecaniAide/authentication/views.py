@@ -13,7 +13,7 @@ def login_view(request):
             user = authenticate(request, phone_number=phone_number, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')  # Redirect to dashboard or any other page
+                return redirect('home')  
     else:
         form = PhoneLoginForm(request)
     return render(request, 'login.html', {'form': form})
