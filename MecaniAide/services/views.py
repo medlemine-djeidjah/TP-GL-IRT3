@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ServiceRequestForm
 from .models import ServiceRequest
 
-@login_required
+
 def create_service_request(request):
     if request.method == 'POST':
         form = ServiceRequestForm(request.POST, request.FILES)

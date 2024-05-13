@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "gps",
     "authentication",
     "services",
-
+    "profiles",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

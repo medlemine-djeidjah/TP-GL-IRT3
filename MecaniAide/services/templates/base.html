@@ -5,6 +5,8 @@
     <title>{% block title %}Mecaniaide{% endblock %}</title>
     <!-- Lien vers Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Lien vers Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
@@ -14,14 +16,19 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Accueil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'service' %}">Demande de service</a>
                 </li>
+            </ul>
+            <ul class="navbar-nav">
                 {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">Profil</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
                     </li>
