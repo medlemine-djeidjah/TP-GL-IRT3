@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
-from .views import update_location
+from .views import tracking
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('update_location/', update_location, name='update_location'),
+    path('tracking/', tracking, name='tracking'),
 ]

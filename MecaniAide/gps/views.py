@@ -10,18 +10,6 @@ def home(request):
     return render(request, 'home.html', {'user': request.user})
 
 
-#@login_required
-@csrf_exempt
-def update_location(request):
-    if request.method == 'POST':
-        latitude = request.POST.get('latitude')
-        longitude = request.POST.get('longitude')
-        
-        # Assuming you have authenticated users
-        user = request.user
-        
-        UserLocation.objects.create(user=user, latitude=latitude, longitude=longitude)
-        
-        return JsonResponse({'success': True})
-    else:
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+def tracking(request):
+    return render(request, 'tracking.html', {'user': request.user})
+

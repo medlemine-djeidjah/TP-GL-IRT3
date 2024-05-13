@@ -19,7 +19,11 @@ function map() {
 
     let marker;
 
-    function updateLocation(latitude, longitude) {
+    function updateLocation(position) {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude);
+        console.log(longitude);
+
         if (!marker) {
             marker = L.marker([latitude, longitude]).addTo(myMap);
         } else {
@@ -31,24 +35,25 @@ function map() {
         var radius = e.accuracy;
 
         L.circle(e.latlng, radius).addTo(myMap);
-
         // Update location when location found
-        const { latitude, longitude } = e.latlng;
-        updateLocation(latitude, longitude);
+        updateLocation(e);
     }).on("locationerror", (e) => {
         alert(e.message);
     });
 
-    // Update location continuously
-    setInterval(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            updateLocation(latitude, longitude);
-        }, (error) => {
-            console.error('Error getting geolocation:', error);
-        });
-    }, 1000);
+    // Update location continuously using watchPosition()
+    navigator.geolocation.watchPosition((position) => {
+        updateLocation(position);
+    }, (error) => {
+        console.error('Error getting geolocation:', error);
+    }, {
+        enableHighAccuracy : true, 
+        timeout : 1000, 
+        maximumAge : 0
+    });
+
+    
+    ;
 }
 </script>
 {% endblock scripts %}
