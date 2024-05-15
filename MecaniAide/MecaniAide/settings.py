@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "services",
     "profiles",
     'rest_framework',
+    "export"
 ]
 
 MIDDLEWARE = [

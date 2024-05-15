@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('gps.urls')),
     path('store/', include('store.urls')),
     path('ser/', include('services.urls')),
+    path('export', include('export.urls')),
 ]
