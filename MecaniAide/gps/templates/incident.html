@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Incident</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome for icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
+
+
+  {% extends "layoyt.html" %}
+  {% block content %}
   <style>
     /* Add your custom CSS styles here */
     body {
@@ -78,54 +71,25 @@
       border-color: #f4c2c7;
     }
   </style>
-</head>
-<body>
+  
 
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="./logo.png" alt="Logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Services</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
 <div class="container">
-    <h1>Locate Nearby Assistance Services</h1>
-    <form method="post" action="{% url 'incident' %}">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="incident_type" class="form-label">Incident Type</label>
-            <input type="text" class="form-control" id="incident_type" name="incident_type">
-        </div>
-        <div class="mb-3">
-            <label for="location" class="form-label">Enter location</label>
-            <input type="text" class="form-control" id="location" name="location">
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+  <h1>Locate Nearby Assistance Services</h1>
+  <form method="post" action="{% url 'incident' %}">
+      {% csrf_token %}
+      <div class="mb-3">
+          <label for="incident_type" class="form-label">Incident Type</label>
+          <input type="text" class="form-control" id="incident_type" name="incident_type">
+      </div>
+      <div class="mb-3">
+          <label for="location" class="form-label">Enter location</label>
+          <input type="text" class="form-control" id="location" name="location">
+      </div>
+      <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html
+  {% endblock content %}

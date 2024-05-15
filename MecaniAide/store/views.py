@@ -6,4 +6,4 @@ from .models import CarPart
 
 def car_parts_store(request):
     parts = CarPart.objects.all()
-    return render(request, 'car_parts_store.html', {'parts': parts})
+    return render(request, 'store.html', {'parts': parts})
