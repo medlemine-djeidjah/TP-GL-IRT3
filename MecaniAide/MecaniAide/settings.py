@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django_extensions',
     "gps",
     "authentication",
-
+    "services",
+    "profiles",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
