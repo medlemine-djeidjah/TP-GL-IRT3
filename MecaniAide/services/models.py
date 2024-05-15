@@ -19,6 +19,18 @@ PAYMENT_METHOD_CHOICES = [
     ('masrvi', 'Masrvi'),
 ]
 
+# Choix pour le type de carburant
+FUEL_TYPE_CHOICES = [
+    ('gasoline', 'Gasoline'),
+    ('diesel', 'Diesel'),
+]
+
+# Choix pour le type de technicien
+TECHNICIAN_TYPE_CHOICES = [
+    ('mechanic', 'Mechanic'),
+    ('electrician', 'Electrician'),
+]
+
 class ServiceRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Association avec l'utilisateur
     service_type = models.CharField(max_length=50, choices=SERVICE_CHOICES)
@@ -30,9 +42,9 @@ class ServiceRequest(models.Model):
 
     # Spécificités de chaque service
     litres = models.FloatField(blank=True, null=True)  # Pour Fuel Delivery
-    fuel_type = models.CharField(max_length=10, blank=True, null=True)  # Gazoil ou Essence
+    fuel_type = models.CharField(max_length=10, choices=FUEL_TYPE_CHOICES, blank=True, null=True)  # Gazoil ou Essence
     car_brand = models.CharField(max_length=50, blank=True, null=True)  # Pour Lost Key
-    technician_type = models.CharField(max_length=20, blank=True, null=True)  # Mechanicien ou Electricien
+    technician_type = models.CharField(max_length=20, choices=TECHNICIAN_TYPE_CHOICES, blank=True, null=True)  # Mechanicien ou Electricien
 
     def __str__(self):
         return f"{self.get_service_type_display()} request by {self.user.username}"
