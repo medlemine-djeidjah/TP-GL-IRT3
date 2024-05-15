@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 django = "*"
+werkzeug = "*"
+pyopenssl = "*"
+django-extensions = "*"
 
 [dev-packages]
 

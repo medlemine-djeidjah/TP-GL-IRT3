@@ -6,5 +6,14 @@ from . import custom_user
 class ServiceProvider(models.Model):
     user = models.OneToOneField(custom_user.CustomUser, on_delete=models.CASCADE)
     business_name = models.CharField(max_length=100)
-    job = models.CharField(max_length=15 ,choices= {"Mechanic" : "Mechanic", "Electritien": "Electritien", "ShopOwner": "ShopOwner", "Other":"Other"})
+
+    # Define a list of tuples for job choices
+    JOB_CHOICES = [
+        ("Mechanic", "Mechanic"),
+        ("Electrician", "Electrician"),  # Corrected spelling
+        ("ShopOwner", "Shop Owner"),
+        ("Other", "Other"),
+    ]
+
+    job = models.CharField(max_length=15, choices=JOB_CHOICES)
     is_available = models.BooleanField(default=True)

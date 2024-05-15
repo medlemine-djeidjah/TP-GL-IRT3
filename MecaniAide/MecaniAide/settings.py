@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_extensions',
     "gps",
     "authentication",
-    "store"
-
+    "store",
+    "services",
+    "profiles",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +136,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default backend
 ]
 
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.101.92']
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
