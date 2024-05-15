@@ -2,41 +2,24 @@
 
 {% block content %}
 
+
 <div class="container mt-4">
   <h1 class="my-5 text-center">Car Parts</h1>
-
   <div class="row">
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Engine</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut quam ligula.</p>
-          <a href="#" class="btn btn-warning">Buy</a>
+    {% for part in parts %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card">
+          <img src="{% if part.image_url %}{{ part.image_url }}{% else %}https://via.placeholder.com/300{% endif %}"  width="100" alt="Car Part Image">
+
+          <div class="card-body">
+            <h5 class="card-title">{{ part.name }}</h5>
+            <p class="card-text">{{ part.description }}</p>
+            <p class="card-text">{{ part.price }}</p>
+            <a href="#" class="btn btn-warning">Buy</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Tires</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut quam ligula.</p>
-          <a href="#" class="btn btn-warning">Buy</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Brake Pads</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut quam ligula.</p>
-          <a href="#" class="btn btn-warning">Buy</a>
-        </div>
-      </div>
-    </div>
-    <!-- Add more cards for other parts -->
+    {% endfor %}
   </div>
 </div>
 {% endblock content %}
