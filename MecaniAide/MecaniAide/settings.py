@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_extensions',
     "gps",
     "authentication",
+    "store",
     "services",
     "profiles",
     'rest_framework',
