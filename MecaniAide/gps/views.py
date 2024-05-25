@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 
-#@login_required(login_url= "auth/login/")
+@login_required(login_url= "auth/login/")
 def home(request):
     return render(request, 'home.html', {'user': request.user})
 
