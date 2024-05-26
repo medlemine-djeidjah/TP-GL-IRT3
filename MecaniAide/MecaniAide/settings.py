@@ -138,6 +138,15 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.101.92']
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+# email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your_email@example.com'
+EMAIL_HOST_PASSWORD = 'your_email_password'
+DEFAULT_FROM_EMAIL = 'webmaster@example.com'
