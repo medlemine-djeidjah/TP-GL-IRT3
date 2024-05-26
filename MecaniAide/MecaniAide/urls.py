@@ -23,6 +23,6 @@ urlpatterns = [
     path('auth/profiles/', include('profiles.urls')),
     path('', include('gps.urls')),
     path('store/', include('store.urls')),
-    path('services/', include('services.urls')),
+    path('incident/', include('services.urls')),
     path('upload-csv/', include('export.urls')),
 ]
