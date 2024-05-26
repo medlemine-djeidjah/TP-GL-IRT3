@@ -1,25 +1,83 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
-
-<div class="container mt-4">
-  <h1 class="my-5 text-center">Car Parts</h1>
-  <div class="row">
-    {% for part in parts %}
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card">
-          <img src="{% if part.image_url %}{{ part.image_url }}{% else %}https://via.placeholder.com/300{% endif %}"  width="100" alt="Car Part Image">
-
-          <div class="card-body">
-            <h5 class="card-title">{{ part.name }}</h5>
-            <p class="card-text">{{ part.description }}</p>
-            <p class="card-text">{{ part.price }}</p>
-            <a href="#" class="btn btn-warning">Buy</a>
+<div x-data="{ 
+  parts: [], 
+  loading: true, 
+  selectedCategory: 'All', 
+  categories: [
+    { name: 'All', icon: 'fa fa-globe' },
+    { name: 'Engine', icon: 'fa fa-car' },
+    { name: 'Tires', icon: 'fa fa-wrench' },
+    { name: 'Brakes', icon: 'fa fa-shield-alt' },
+    { name: 'Interior', icon: 'fa fa-couch' },
+    { name: 'Exterior', icon: 'fa fa-paint-roller' },
+    { name: 'Other', icon: 'fa fa-paint-roller' }
+  ] 
+}" x-init="() => {
+  fetch('api/car-parts-store/') // Assuming the API endpoint is '/api/car_parts_store/'
+    .then(response => response.json())
+    .then(data => {
+      parts = data;
+      loading = false;
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      loading = false;
+    });
+}">
+  <div class="container mx-auto mt-4">
+    <h1 class="my-5 text-center text-2xl font-bold">Car Parts</h1>
+    <!-- Category Filter Buttons -->
+    <div class="flex justify-center mb-4">
+      <template x-for="category in categories" :key="category.name">
+        <button 
+          x-on:click="selectedCategory = category.name"
+          :class="{ 'bg-yellow-500 text-white': selectedCategory === category.name, 'text-gray-700': selectedCategory !== category.name }"
+          class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 flex items-center"
+        >
+          <i :class="category.icon + ' mr-2'"></i> 
+          <span x-text="category.name"></span>
+        </button>
+      </template>
+    </div>
+    <!-- Car Parts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <template x-for="part in parts" :key="part.id">
+        <!-- Filter Parts by Category -->
+        <template x-if="selectedCategory === 'All' || selectedCategory === part.category">
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="aspect-w-16 aspect-h-9">
+              <div x-show="loading" class="animate-pulse bg-gray-300 h-full"></div>
+              <img x-show="!loading" x-bind:src="part.image_url ? part.image_url : 'https://via.placeholder.com/300'" class="object-cover w-full h-full" alt="Car Part Image">
+            </div>
+            <div class="p-4">
+              <h5 class="font-semibold text-xl mb-2" x-text="part.name"></h5>
+              <p class="text-gray-700" x-text="part.description"></p>
+              <p class="text-gray-700" x-text="'$' + part.price"></p>
+              <a href="#" class="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2">Buy</a>
+            </div>
+          </div>
+        </template>
+      </template>
+    </div>
+  </div>
+  <!-- Loading Shimmer Effect -->
+  <div x-show="loading" class="container mx-auto mt-4">
+    <h1 class="my-5 text-center text-2xl font-bold">Car Parts</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <template x-for="i in 6">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden animate-pulse">
+          <div class="aspect-w-16 aspect-h-9 bg-gray-300"></div>
+          <div class="p-4">
+            <div class="h-6 bg-gray-300 rounded mb-2"></div>
+            <div class="h-4 bg-gray-300 rounded mb-2"></div>
+            <div class="h-4 bg-gray-300 rounded mb-2"></div>
+            <div class="h-4 bg-gray-300 rounded mb-2"></div>
           </div>
         </div>
-      </div>
-    {% endfor %}
+      </template>
+    </div>
   </div>
 </div>
 {% endblock content %}

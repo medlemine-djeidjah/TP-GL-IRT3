@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Order(models.Model):
     order_number = models.CharField(max_length=50)
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -15,10 +14,20 @@ class Order(models.Model):
         return self.order_number
 
 class CarPart(models.Model):
+    CATEGORY_CHOICES = [
+        ('Engine', 'Engine'),
+        ('Tire', 'Tire'),
+        ('Brake', 'Brake'),
+        ('Battery', 'Battery'),
+        ('Lighting', 'Lighting'),
+        ('Other', 'Other'),
+    ]
+
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     image_url = models.URLField()
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='Other')
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='car_parts', default=None)
 
     def save(self, *args, **kwargs):
