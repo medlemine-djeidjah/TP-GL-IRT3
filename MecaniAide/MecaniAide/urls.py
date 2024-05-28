@@ -24,5 +24,5 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('incident/', include('services.urls')),
     path('upload-csv/', include('export.urls')),
-     path('accounts/', include('phone_auth.urls')),
+    path('accounts/', include('phone_auth.urls')),
 ]
