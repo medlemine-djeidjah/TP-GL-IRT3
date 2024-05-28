@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'django_extensions',
+    'phone_auth',
     "gps",
-    "authentication",
     "store",
     "services",
     "profiles",
@@ -130,10 +130,10 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'authentication.CustomUser'
+#AUTH_USER_MODEL = 'authentication.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-    'authentication.backends.PhoneBackend',
+    'phone_auth.backend.CustomAuthBackend',
     'django.contrib.auth.backends.ModelBackend',  # Default backend
 ]
 

@@ -7,6 +7,7 @@
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Leaflet CSS -->
@@ -36,50 +37,83 @@
             overflow-y: auto;
             transition: left 0.3s ease; /* Add smooth transition */
         }
+        .toggle-button {
+            z-index: 2;
+            
+        }
     </style>
 </head>
 <body class="flex">
 
-    <div x-data="{ sidebarOpen: false }">
-        <!-- Button to toggle sidebar -->
-        <button @click="sidebarOpen = !sidebarOpen" class="fixed top-6 left-6 text-white">
-            <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-            <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-        
-        <!-- Sidebar -->
-        <div class="sidebar bg-gray-800" :style="sidebarOpen ? 'left: 0;' : 'left: -280px;'">
-            <div class="flex items-center justify-center py-4">
-                <a href="#" class="text-2xl font-semibold text-white">MécaniAide</a>
-            </div>
-            <nav>
-                <ul class="space-y-4">
-                    <li><a href="{% url 'home' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Home</a></li>
-                    <li><a href="{% url 'incident_form' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a></li>
-                    <li><a href="{% url 'view_profile' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Profile</a></li>
-                    <li><a href="{% url 'car_parts_store' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Store</a></li>
-                    <li><a href="{% url 'upload_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Upload CSV</a></li>
-                    <li><a href="{% url 'export_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">Export CSV</a></li>
-                </ul>
-            </nav>
+<div x-data="{ sidebarOpen: false }">
+    <!-- Button to toggle sidebar -->
+    <button @click="sidebarOpen = !sidebarOpen" class="fixed top-6 left-6 text-white  toggle-button">
+        <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar bg-gray-800" :style="sidebarOpen ? 'left: 0;' : 'left: -280px;'">
+        <div class="flex items-center justify-center py-4">
+            <a href="#" class="text-2xl font-semibold text-white">MécaniAide</a>
         </div>
+        <nav>
+            <ul class="space-y-4">
+                <li>
+                    <a href="{% url 'home' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'incident_form' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-tools"></i> Services
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view_profile' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'car_parts_store' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-store"></i> Store
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'upload_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-file-upload"></i> Upload CSV
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'export_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-file-export"></i> Export CSV
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
-    <div class="flex-1 ml-64">
+    <div :class="sidebarOpen ? 'ml-64' : ''" class="flex-1 transition-all duration-300">
         {% block content %}
         {% endblock content %}
     </div>
+</div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-    {% block scripts %}
-    {% endblock scripts %}
+{% block scripts %}
+{% endblock scripts %}
 
 </body>
 </html>

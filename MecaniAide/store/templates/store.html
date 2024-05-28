@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div x-data="{ 
+<div class="w-full" x-data="{ 
   parts: [], 
   loading: true, 
   selectedCategory: 'All', 
@@ -15,7 +15,7 @@
     { name: 'Other', icon: 'fa fa-paint-roller' }
   ] 
 }" x-init="() => {
-  fetch('api/car-parts-store/') // Assuming the API endpoint is '/api/car_parts_store/'
+  fetch('api/car-parts-store/')
     .then(response => response.json())
     .then(data => {
       parts = data;
@@ -26,36 +26,36 @@
       loading = false;
     });
 }">
-  <div class="container mx-auto mt-4">
-    <h1 class="my-5 text-center text-2xl font-bold">Car Parts</h1>
+  <div class="container mx-auto mt-4 text-center">
+    <h1 class="my-5 text-4xl font-extrabold text-gray-800">Car Parts</h1>
     <!-- Category Filter Buttons -->
-    <div class="flex justify-center mb-4">
+    <div class="flex justify-center mb-6">
       <template x-for="category in categories" :key="category.name">
         <button 
           x-on:click="selectedCategory = category.name"
           :class="{ 'bg-yellow-500 text-white': selectedCategory === category.name, 'text-gray-700': selectedCategory !== category.name }"
-          class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 flex items-center"
+          class="bg-gray-300 hover:bg-gray-400 transition-colors text-gray-700 px-4 py-2 rounded-lg mr-2 flex items-center shadow"
         >
-          <i :class="category.icon + ' mr-2'"></i> 
+          <i :class="category.icon + ' mr-2'"></i>
           <span x-text="category.name"></span>
         </button>
       </template>
     </div>
     <!-- Car Parts Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <template x-for="part in parts" :key="part.id">
         <!-- Filter Parts by Category -->
         <template x-if="selectedCategory === 'All' || selectedCategory === part.category">
-          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
             <div class="aspect-w-16 aspect-h-9">
               <div x-show="loading" class="animate-pulse bg-gray-300 h-full"></div>
-              <img x-show="!loading" x-bind:src="part.image_url ? part.image_url : 'https://via.placeholder.com/300'" class="object-cover w-full h-full" alt="Car Part Image">
+              <img x-show="!loading" :src="part.image_url || 'https://via.placeholder.com/300'" class="object-cover w-full h-full" alt="Car Part Image">
             </div>
             <div class="p-4">
-              <h5 class="font-semibold text-xl mb-2" x-text="part.name"></h5>
-              <p class="text-gray-700" x-text="part.description"></p>
-              <p class="text-gray-700" x-text="'$' + part.price"></p>
-              <a href="#" class="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2">Buy</a>
+              <h5 class="font-semibold text-xl mb-2 text-gray-800" x-text="part.name"></h5>
+              <p class="text-gray-700 mb-4" x-text="part.description"></p>
+              <p class="text-gray-800 font-bold mb-4" x-text="'$' + part.price"></p>
+              <a href="#" class="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-yellow-600 transition-colors">Buy</a>
             </div>
           </div>
         </template>
@@ -63,9 +63,9 @@
     </div>
   </div>
   <!-- Loading Shimmer Effect -->
-  <div x-show="loading" class="container mx-auto mt-4">
-    <h1 class="my-5 text-center text-2xl font-bold">Car Parts</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div x-show="loading" class="container mx-auto mt-4 text-center">
+    <h1 class="my-5 text-4xl font-extrabold text-gray-800">Car Parts</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <template x-for="i in 6">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden animate-pulse">
           <div class="aspect-w-16 aspect-h-9 bg-gray-300"></div>

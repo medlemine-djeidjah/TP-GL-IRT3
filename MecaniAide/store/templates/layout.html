@@ -3,79 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <title>MecaniAide</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
     <style>
-        html, body, .map-container {
-            height: 100%;
-            margin: 0;
-            overflow: hidden; /* Hide vertical scrollbar */
-        }
-        #map {
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-        }
+       
         .sidebar {
             width: 280px;
             height: 100%;
             position: fixed;
             top: 0;
-            left: 0;
-            background-color: #343a40;
+            left: -280px; /* Initially hidden */
+            background-color: #1a202c;
             color: #ffffff;
             padding: 20px;
             z-index: 1;
             overflow-y: auto;
+            transition: left 0.3s ease; /* Add smooth transition */
         }
-        
+        .toggle-button {
+            z-index: 2;
+            
+        }
     </style>
 </head>
 <body>
-    
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">MécaniAide</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'incident_form' %}">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'view_profile' %}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'car_parts_store' %}">Store</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'upload_csv' %}">Upload CSV</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'export_csv' %}">Export CSV</a>
-                    </li>
-                </ul>
-            </div>
+<div x-data="{ sidebarOpen: false }">
+    <!-- Button to toggle sidebar -->
+    <button @click="sidebarOpen = !sidebarOpen" class="fixed top-6 left-6 text-white  toggle-button">
+        <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar bg-gray-800" :style="sidebarOpen ? 'left: 0;' : 'left: -280px;'">
+        <div class="flex items-center justify-center py-4">
+            <a href="#" class="text-2xl font-semibold text-white">MécaniAide</a>
         </div>
-    </nav>
-    
-    {% block content %}
-    {% endblock content %}
+        <nav>
+            <ul class="space-y-4">
+                <li>
+                    <a href="{% url 'home' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'incident_form' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-tools"></i> Services
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view_profile' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'car_parts_store' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-store"></i> Store
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'upload_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-file-upload"></i> Upload CSV
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'export_csv' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-file-export"></i> Export CSV
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <div>
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
 
-    {% block scripts %}
-    {% endblock scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+{% block scripts %}
+{% endblock scripts %}
 
 </body>
 </html>
