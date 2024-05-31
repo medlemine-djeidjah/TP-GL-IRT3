@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div id="mapid" x-data="map()" style="height: 100vh; width: 100vw;"></div>
+<div id="map-container" class="container-fluid p-0">
+    <div id="mapid" class="position-relative" style="height: 100vh; width: 100vw;"></div>
+    <div id="location-info" class="position-absolute bottom-0 start-50 translate-middle-x p-3 bg-dark text-white rounded shadow-lg opacity-0 transition-opacity">
+        Localisation trouvée: <span id="location-text"></span>
+    </div>
+</div>
 {% endblock content %}
 
 {% block scripts %}
@@ -18,17 +23,27 @@ function map() {
     });
 
     let marker;
+    const locationInfo = document.getElementById("location-info");
+    const locationText = document.getElementById("location-text");
 
     function updateLocation(position) {
         const { latitude, longitude } = position.coords;
         console.log(latitude);
         console.log(longitude);
 
+        locationText.innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        locationInfo.classList.add("opacity-100");
+
         if (!marker) {
             marker = L.marker([latitude, longitude]).addTo(myMap);
         } else {
             marker.setLatLng([latitude, longitude]);
         }
+
+        // Hide location info after 3 seconds
+        setTimeout(() => {
+            locationInfo.classList.remove("opacity-100");
+        }, 3000);
     }
 
     myMap.locate({ setView: true, maxZoom: 16 }).on('locationfound', (e) => {
@@ -51,9 +66,7 @@ function map() {
         timeout : 1000, 
         maximumAge : 0
     });
-
-    
-    ;
 }
+document.addEventListener('DOMContentLoaded', map);
 </script>
 {% endblock scripts %}
