@@ -38,7 +38,7 @@
 
   <div class="row">
     <div class="col-md-4 mb-4">
-      <div class="card">
+      <div class="card fade show">
         <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Engine</h5>
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="col-md-4 mb-4">
-      <div class="card">
+      <div class="card fade show">
         <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Tires</h5>
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="col-md-4 mb-4">
-      <div class="card">
+      <div class="card fade show">
         <img src="https://via.placeholder.com/300" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Brake Pads</h5>
@@ -73,6 +73,14 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add 'show' class to all cards to trigger animation
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(card) {
+      card.classList.add('show');
+    });
+  });
+</script>
 </body>
 </html>
