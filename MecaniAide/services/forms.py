@@ -1,5 +1,6 @@
+# forms.py
 from django import forms
-from .models import ServiceRequest
+from .models import ServiceRequest, ServiceResponse
 
 class ServiceRequestForm(forms.ModelForm):
     class Meta:
@@ -11,7 +12,7 @@ class ServiceRequestForm(forms.ModelForm):
             'payment_method': forms.Select(),
         }
 
-    # Masquer les champs qui ne sont pas nécessaires pour tous les services
+
     def clean(self):
         cleaned_data = super().clean()
         service_type = cleaned_data.get('service_type')
@@ -29,3 +30,16 @@ class ServiceRequestForm(forms.ModelForm):
             raise forms.ValidationError("Le type de technicien est requis pour le diagnostic.")
 
         return cleaned_data
+
+class ServiceStatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = ServiceRequest
+        fields = ['status']
+
+class ServiceResponseForm(forms.ModelForm):
+    class Meta:
+        model = ServiceResponse
+        fields = ['response']
+        widgets = {
+            'response': forms.Textarea(attrs={'rows': 3}),
+        }

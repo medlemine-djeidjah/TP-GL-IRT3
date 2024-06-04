@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 from django.http import HttpResponse
 import csv
-from .models import CarPart  # Assurez-vous d'importer correctement votre modèle CarPart
+from store.models import CarPart  # Assurez-vous d'importer correctement votre modèle CarPart
 
 def export_csv(request):
     # Récupérer toutes les pièces de voiture de la base de données
