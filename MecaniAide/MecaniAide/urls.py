@@ -24,5 +24,9 @@ urlpatterns = [
     path('', include('gps.urls')),
     path('store/', include('store.urls')),
     path('ser/', include('services.urls')),
+<<<<<<< HEAD
     path('export', include('export.urls')),
+=======
+    path('exp/', include('export.urls')),
+>>>>>>> 5dc325a283b77d22535eae61e57aa24aaa759670
 ]

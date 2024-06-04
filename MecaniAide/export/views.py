@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.http import HttpResponse
 import csv
 from .models import CarPart  # Assurez-vous d'importer correctement votre modèle CarPart
@@ -21,3 +22,25 @@ def export_csv(request):
         writer.writerow([car_part.name, car_part.description, car_part.price, car_part.image_url])
 
     return response
+=======
+from django.shortcuts import render
+
+# Create your views here.
+
+import csv
+from django.http import HttpResponse
+from .models import DemandeAssistance
+
+def export_demandes_assistance(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="demandes_assistance.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'Date de création', 'Statut', 'Type d\'incident', 'Description', 'Client'])
+
+    demandes_assistance = DemandeAssistance.objects.all()
+    for demande in demandes_assistance:
+        writer.writerow([demande.id, demande.date_creation, demande.statut, demande.type_incident, demande.description, demande.client])
+
+    return response
+>>>>>>> 5dc325a283b77d22535eae61e57aa24aaa759670
