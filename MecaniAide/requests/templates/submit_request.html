@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Assistance Request{% endblock %}
+{% load static %}
+{% block content %}
+<div class="flex justify-center items-center min-h-screen w-full " x-data="assistanceRequestForm()">
+    <div class="flex w-full max-w-4xl p-6 text-white rounded-lg shadow-lg">
+        <div class="w-1/2 p-4 flex flex-col justify-center items-center">
+            <img src='{% static "img/logo.png" %}' alt="Illustration" class="mb-6 w-full">
+          
+        </div>
+        <div class="w-1/2 p-6">
+            <form method="POST" enctype="multipart/form-data" class="space-y-4" >
+                {% csrf_token %}
+                <div class="form-control">
+                    <label for="id_description" class="label flex items-center">
+                        <i class="fas fa-pencil-alt mr-2 text-white-700"></i>
+                        <span class="label-text text-white-700">Description of the Issue</span>
+                    </label>
+                    {{ request_form.description }}
+                </div>
+                <div class="form-control">
+                    <label for="id_payment_method" class="label flex items-center">
+                        <i class="fas fa-credit-card mr-2 text-white-700"></i>
+                        <span class="label-text text-white-700">Preferred Payment Method</span>
+                    </label>
+                    {{ request_form.payment_method }}
+                </div>
+                <div class="form-control">
+                    <label for="id_assistance_type" class="label flex items-center">
+                        <i class="fas fa-question-circle mr-2 text-white-700"></i>
+                        <span class="label-text text-white-700">Type of Assistance Needed</span>
+                    </label>
+                    {{ request_form.assistance_type }}
+                </div>
+                <div class="form-control">
+                    <label for="media" class="label flex items-center">
+                        <i class="fas fa-upload mr-2 text-white-700"></i>
+                        <span class="label-text text-white-700">Upload Media (Images or Videos)</span>
+                    </label>
+                    <input type="file" name="media" class="file-input file-input-bordered w-full" id="media" @change="previewFiles" multiple>
+                    <div class="flex flex-wrap mt-4">
+                        <template x-for="(file, index) in files" :key="index">
+                            <div class="relative w-24 h-24 m-1">
+                                <img :src="file.url" class="w-full h-full object-cover">
+                                <button type="button" class="absolute top-0 right-0 bg-red-600 text-white p-1 rounded-full" @click="removeFile(index)">×</button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <input type="hidden" name="latitude" id="id_latitude" x-model="latitude">
+                <input type="hidden" name="longitude" id="id_longitude" x-model="longitude">
+                <div class="form-control mt-6">
+                    <button type="submit" class="btn btn-warning btn-block">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function assistanceRequestForm() {
+        return {
+            latitude: '',
+            longitude: '',
+            files: [],
+            init() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        this.latitude = position.coords.latitude;
+                        this.longitude = position.coords.longitude;
+                        document.getElementById('id_latitude').value = this.latitude;
+                        document.getElementById('id_longitude').value = this.longitude;
+                        console.log(this.latitude);
+                        console.log(this.longitude);
+                    });
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            },
+            previewFiles(event) {
+                const inputFiles = event.target.files;
+                this.files = [];
+                for (let i = 0; i < inputFiles.length; i++) {
+                    const file = inputFiles[i];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.files.push({ url: e.target.result, file: file });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+            removeFile(index) {
+                this.files.splice(index, 1);
+            },
+            submitForm() {
+                // Custom form submission logic can go here.
+                // Since form submission is prevented by @submit.prevent, you can handle the form data as needed.
+                // You can use fetch or axios to send the form data to the server.
+            }
+        };
+    }
+</script>
+{% endblock content %}

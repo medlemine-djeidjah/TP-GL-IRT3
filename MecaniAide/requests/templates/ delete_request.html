@@ -1,0 +1,18 @@
+<!-- delete_request.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Deletion</title>
+</head>
+<body>
+    <h1>Confirm Deletion</h1>
+    <p>Are you sure you want to delete Request {{ assistance_request.id }}?</p>
+    <form action="{% url 'delete_request' assistance_request.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a href="{% url 'service_provider_requests' %}">Cancel</a>
+</body>
+</html>

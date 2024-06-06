@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,11 +41,21 @@ INSTALLED_APPS = [
     'phone_auth',
     "gps",
     "store",
-    "services",
-    "profiles",
     'rest_framework',
     'export',
+    'requests',
+    "profiles",
+    'crispy_forms',
+    'crispy_tailwind',
+    'import_export',
 ]
+
+
+
+CRISPY_TEMPLATE_PACK = 'tailwind'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -107,6 +117,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -116,7 +135,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 
 USE_I18N = True
-
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
@@ -125,6 +143,7 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [STATIC_URL,]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

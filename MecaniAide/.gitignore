@@ -1,0 +1,97 @@
+# Ignore binary files
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.exe
+*.dll
+*.bin
+*.o
+*.obj
+*.class
+
+# Ignore specific Django and Python files
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+*.DS_Store
+*.coverage
+
+# Ignore virtual environment directories
+env/
+venv/
+ENV/
+VENV/
+env.bak/
+venv.bak/
+
+# Ignore compiled static files
+staticfiles/
+
+# Ignore local development settings
+local_settings.py
+
+# Ignore database files
+db.sqlite3
+db.sqlite3-journal
+
+# Ignore media files
+media/
+
+# Ignore migrations
+**/migrations/
+
+# Ignore PyCharm project files
+.idea/
+
+# Ignore VS Code project files
+.vscode/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Ignore the directories created by various package managers
+node_modules/
+bower_components/
+
+# Ignore build directories and artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Ignore the `env` directory when running in production
+env/
+prod_env/
+
+# Ignore temporary files
+*~
+# Ignore .env file containing environment variables
+.env
+
+# Ignore logs and temp files
+*.log
+temp/
+
+# Ignore pipfile
+Pipfile.lock

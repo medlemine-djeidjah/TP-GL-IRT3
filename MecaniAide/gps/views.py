@@ -8,6 +8,5 @@ def home(request):
     return render(request, 'home.html', {'user': request.user})
 
 
-def tracking(request):
-    return render(request, 'tracking.html', {'user': request.user})
+
 
