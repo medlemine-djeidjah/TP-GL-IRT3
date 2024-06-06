@@ -58,3 +58,4 @@ def update_order_total_on_part_save(sender, instance, **kwargs):
 @receiver(post_delete, sender=OrderItem)
 def update_order_total_on_item_delete(sender, instance, **kwargs):
     instance.order.update_total_price()
+
