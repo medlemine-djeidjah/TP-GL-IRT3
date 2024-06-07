@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="mapid" class="fade show" x-data="map()" style="height: 100vh; width: 100vw; position: relative;"></div>
+<div id="requestDetails" class="card animate__animated animate__fadeInUp" style="position: absolute; bottom: 20px; left: 20px; z-index: 1000; width: 300px;">
+    <div class="card-body">
+        <h5 class="card-title">Request Details</h5>
+        <div class="card-text">
+            <div class="row">
+                <div class="col-6">
+                    <img src="https://picsum.photos/200/300" alt="Profile Picture" class="img-fluid animate__animated animate__fadeIn">
+                </div>
+                <div class="col-6">
+                    <h5>Medzo</h5>
+                    <p>31102186</p>
+                    <hr>
+                    <h6>Diagnostic</h6>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requestModal">More Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content animate__animated animate__fadeIn">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requestModalLabel">More Request Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="https://picsum.photos/200/300" alt="">
+        <hr>
+        <p>Username</p>
+        <p>Phone</p>
+        <p>Problem</p>
+        <p>Payment Method</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+function map() {
+    const map = L.map("mapid", {
+        center: [18.094516443901764, -15.977817993728276],
+        zoom: 13,
+        layers: [
+            L.tileLayer("https://maps.geoapify.com/v1/tile/dark-matter-yellow-roads/{z}/{x}/{y}.png?apiKey=a2faa87e609c42c6ada240cc5515642d", {})
+        ]
+    });
+
+    let userMarker;
+
+    map.locate({setView: true, maxZoom: 16});
+
+    map.on('locationfound', onLocationFound);
+
+    function onLocationFound(e) {
+        const radius = e.accuracy;
+
+        if (!userMarker) {
+            userMarker = L.marker(e.latlng).addTo(map)
+        } else {
+            userMarker.setLatLng(e.latlng)
+        }
+
+        L.circle(e.latlng, radius).addTo(map);
+        map.panTo(e.latlng);
+        const userLocation = e.latlng;
+        const destination = L.latLng(18.107746052668777, -15.99919904825552);
+
+        L.Routing.control({
+            waypoints: [
+                userLocation,
+                destination
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+    }
+}
+</script>
+{% endblock scripts %}
