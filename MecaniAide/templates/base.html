@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"  data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MecaniAide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #map {
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -280px; /* Initially hidden */
+            color: #ffffff;
+            padding: 20px;
+            z-index: 1;
+            overflow-y: auto;
+            transition: left 0.3s ease; /* Add smooth transition */
+        }
+        .toggle-button {
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body class="flex">
+
+<div x-data="{ sidebarOpen: false }" class="flex w-full h-full">
+    <!-- Button to toggle sidebar -->
+    <button @click="sidebarOpen = !sidebarOpen" class="fixed top-6 left-6 text-white  toggle-button">
+        <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar bg-gray-800" :style="sidebarOpen ? 'left: 0;' : 'left: -280px;'">
+        <div class="flex items-center justify-center py-4">
+            <a href="#" class="text-2xl font-semibold text-warning">MécaniAide</a>
+        </div>
+        <nav>
+            <ul class="space-y-4">
+                <li>
+                    <a href="{% url 'home' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-home px-2"></i> HOME
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{% url 'profile' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-user px-2"></i> PROFILE
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'car_parts_store' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-store px-2"></i> STORE
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'submit_request' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-wrench px-2"></i> SUBMIT REQUEST
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'service_provider_requests' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-wrench px-2"></i> VIEW REQUESTS
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-contact-book px-2"></i> CONTACT US
+                    </a>
+                </li>
+                <li>
+                    <a href="accounts/logout" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-sign-out-alt px-2"></i> LOGOUT
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div :class="sidebarOpen ? 'ml-72' : 'ml-0'" class="transition-all duration-300 flex-1 h-full overflow-auto">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+{% block scripts %}
+{% endblock scripts %}
+<script>
+    function addToCart(part) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(part);
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  </script>
+  
+</body>
+</html>

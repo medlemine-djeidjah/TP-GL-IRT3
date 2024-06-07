@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6">Service Provider Requests</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for request in assigned_requests %}
+        <div class="p-6 border rounded-lg" x-data="{ isOpen: false, imageUrl: '' }">
+            {% if request.get_first_media_url %}
+            <div class="mb-4">
+                <img src="{{ request.get_first_media_url }}" alt="Media" class="w-full h-48 object-cover rounded-lg cursor-pointer" @click="isOpen = true; imageUrl = '{{ request.get_first_media_url }}'">
+            </div>
+            {% endif %}
+            <h2 class="text-xl font-bold mb-4">Client: {{ request.user.username }}</h2>
+            <p class="text-gray-600 mb-2">Assistance Type: {{ request.assistance_type }}</p>
+            <p class="text-gray-600 mb-4">Created At: {{ request.created_at }}</p>
+            <div class="flex justify-end">
+                <a href="{% url 'track_request' request.id %}" class="btn btn-warning mr-2">Track</a>
+                <form action="{% url 'delete_request' request.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-error">Cancel</button>
+                </form>
+            </div>
+            <!-- Media Modal -->
+            <template x-if="isOpen">
+                <div class="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75 flex">
+                    <div class="relative p-8 bg-white max-w-lg m-auto flex-col flex">
+                        <button @click="isOpen = false" class="absolute top-0 right-0 m-4 text-3xl">X</button>
+                        <img :src="imageUrl" alt="Media" class="mx-auto"/>
+                    </div>
+                </div>
+            </template>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

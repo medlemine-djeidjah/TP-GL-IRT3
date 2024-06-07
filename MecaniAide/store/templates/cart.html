@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto mt-4" x-data="{
+  cart: JSON.parse(localStorage.getItem('cart')) || [],
+  shippingFee: 100.00,
+  taxRate: 0.10,
+  notification: null,
+  removeFromCart(index) {
+      this.cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+  },
+  subtotal() {
+      return this.cart.reduce((total, part) => total + parseFloat(part.price), 0).toFixed(2);
+  },
+  taxAmount() {
+      return (this.subtotal() * this.taxRate).toFixed(2);
+  },
+  totalAmount() {
+      return (parseFloat(this.subtotal()) + parseFloat(this.taxAmount()) + this.shippingFee).toFixed(2);
+  },
+  checkout() {
+      if (this.cart.length === 0) {
+        this.showNotification('Your cart is empty!', 'error');
+      } else {
+          this.uploadOrder();
+      }
+  },
+  uploadOrder() {
+      fetch('checkout/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken') // Retrieve CSRF token
+          },
+          body: JSON.stringify({
+              cart: this.cart.map(item => ({ id: item.id, quantity: 1 })), // Assuming quantity is always 1
+              totalAmount: this.totalAmount()
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.error) {
+            this.showNotification(data.error, 'error');
+          } else {
+            this.showNotification(data.message, 'success');
+              // Clear the cart after successful order creation
+              this.cart = [];
+              localStorage.setItem('cart', JSON.stringify([]));
+          }
+      })
+      .catch(error => {
+          // Handle error
+          console.error('Error creating order:', error);
+          this.showNotification('Error creating order. Please try again.', 'error');
+      });
+  },
+  showNotification(message, type) {
+    this.notification = { message, type };
+    setTimeout(() => {
+        this.notification = null;
+    }, 4000);
+}
+}">
+  <h1 class="m-5 text-4xl font-extrabold text-center text-white-800"><i class="fa fa-shopping-cart text-warning"></i> Your Cart</h1>
+  
+  <template x-if="cart.length === 0">
+    <p class="text-center text-white-800 font-bold text-2xl">Your cart is empty.</p>
+  </template>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" x-show="cart.length > 0">
+    
+    <!-- Product List Section -->
+    <div class="lg:col-span-2">
+      <template x-for="(part, index) in cart" :key="index">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-4 flex">
+          <div class="h-48 w-48 bg-gray-200 flex-shrink-0">
+            <img :src="part.image_url || 'https://via.placeholder.com/150'" class="object-cover h-full w-full" alt="Car Part Image">
+          </div>
+          <div class="p-4 flex-grow flex flex-col justify-between">
+            <div>
+              <h5 class="font-semibold text-xl mb-2 text-gray-800" x-text="part.name"></h5>
+              <p class="text-gray-700 mb-4" x-text="part.description"></p>
+              <p class="text-gray-800 font-bold mb-4" x-text="'MRU ' + part.price"></p>
+            </div>
+            <div>
+              <button x-on:click="removeFromCart(index)" class="inline-block bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">Remove</button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Cart Summary and Checkout Section -->
+    <div class="bg-white shadow-lg rounded-lg p-6 lg:col-span-1">
+      <h2 class="text-2xl font-bold mb-4">Summary</h2>
+      <div class="text-gray-800">
+        <p class="mb-2">Subtotal: MRU <span x-text="subtotal()"></span></p>
+        <p class="mb-2">Shipping Fee: MRU <span x-text="shippingFee"></span></p>
+        <p class="mb-2">Tax (10%): MRU <span x-text="taxAmount()"></span></p>
+        <h2 class="text-2xl font-bold mt-4">Total: MRU <span x-text="totalAmount()"></span></h2>
+      </div>
+      <button x-on:click="checkout" class="inline-block bg-green-500 text-white px-6 py-3 rounded-lg mt-4 hover:bg-green-600 transition-colors">Proceed to Checkout</button>
+    </div>
+  </div>
+  <div x-show="notification" x-cloak class="fixed bottom-0 right-0 m-4 z-50">
+    <div x-show="notification.type === 'success'" class="notification bg-green-500 text-white p-4 rounded-lg shadow-lg">
+        <span x-text="notification.message"></span>
+    </div>
+    <div x-show="notification.type === 'error'" class="notification bg-red-500 text-white p-4 rounded-lg shadow-lg">
+        <span x-text="notification.message"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

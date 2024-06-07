@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="mapid" x-data="map({{ request_id }})" x-init="init()" style="height: 100vh; width: 100vw; position: relative;"></div>
+<div id="requestDetails" class="card" style="position: absolute; bottom: 20px; left: 20px; z-index: 1000; width: 300px;" x-data="requestDetails({{ request_id }})" x-init="init()">
+    <div class="card-body" x-show="details">
+      <h5 class="card-title" x-text="details.user"></h5>
+        <div class="card-text">
+            <div class="row">
+                <div class="col-6">
+                    <img :src="details.media[0] || 'https://picsum.photos/200/300'" alt="Profile Picture" class="img-fluid">
+                </div>
+                <div class="col-6 py-5">
+                    
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#requestModal">More Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestModalLabel">More Request Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" x-show="details">
+                <img :src="details.media[0] || 'https://picsum.photos/200/300'" alt="">
+                <hr>
+                <p x-text="'Username: ' + details.user"></p>
+                <p x-text="'Description: ' + details.description"></p>
+                <p x-text="'Payment Method: ' + details.payment_method"></p>
+                <p x-text="'Assistance Type: ' + details.assistance_type"></p>
+                <p x-text="'Created At: ' + details.created_at"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!-- Add more buttons or actions as needed -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+function map(requestId) {
+    return {
+        userLocation: null,
+        destination: null,
+        map: null,
+        routingControl: null,
+
+        init() {
+            this.map = L.map("mapid", {
+                center: [18.094516443901764, -15.977817993728276],
+                zoom: 13,
+                layers: [
+                    L.tileLayer("https://maps.geoapify.com/v1/tile/dark-matter-yellow-roads/{z}/{x}/{y}.png?apiKey=a2faa87e609c42c6ada240cc5515642d", {})
+                ]
+            });
+
+            this.map.locate({setView: true, maxZoom: 16});
+            this.map.on('locationfound', (e) => this.onLocationFound(e));
+            this.fetchRequestDetails(requestId);
+        },
+
+        onLocationFound(e) {
+            this.userLocation = e.latlng;
+
+            if (!this.routingControl) {
+                this.routingControl = L.Routing.control({
+                    waypoints: [this.userLocation, this.destination],
+                    routeWhileDragging: true,
+                    createMarker: function() { return null; }
+                }).addTo(this.map);
+            } else {
+                this.updateRouting();
+            }
+        },
+
+        fetchRequestDetails(requestId) {
+            fetch(`/requests/request_details/${requestId}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.destination = L.latLng(data.latitude, data.longitude);
+                    this.updateRouting();
+                })
+                .catch(error => {
+                    console.error('Error fetching request details:', error);
+                });
+        },
+
+        updateRouting() {
+            if (this.userLocation && this.destination) {
+                this.routingControl.setWaypoints([
+                    this.userLocation,
+                    this.destination
+                ]);
+            }
+        }
+    }
+}
+
+function requestDetails(requestId) {
+    return {
+        details: null,
+        init() {
+            fetch(`/requests/request_details/${requestId}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.details = data;
+                })
+                .catch(error => {
+                    console.error('Error fetching request details:', error);
+                });
+        }
+    }
+}
+</script>
+{% endblock scripts %}

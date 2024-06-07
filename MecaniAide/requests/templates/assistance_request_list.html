@@ -1,0 +1,67 @@
+<!-- assistance_request_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto mt-4" x-data="{ searchQuery: '', showModal: false, selectedRequest: null }">
+    <h1 class="text-4xl font-extrabold text-center mb-6">Assistance Requests</h1>
+    <!-- Forward Request Form -->
+    <form id="forwardRequestForm" method="post">
+        {% csrf_token %}
+        <div class="bento bg-white p-4 rounded-lg shadow-lg">
+            <div class="form-group">
+                <label for="id_service_provider">Search and select a service provider:</label>
+                <input type="text" x-model="searchQuery" id="searchServiceProvider" class="form-control" placeholder="Search...">
+                <select name="service_provider" id="id_service_provider" class="form-select mt-2" aria-label="Select a Service Provider">
+                    {% for provider in form.service_provider.field.queryset %}
+                        <option value="{{ provider.id }}">{{ provider.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Forward Request</button>
+        </div>
+    </form>
+    <hr>
+    <!-- List of Assistance Requests -->
+    <h2 class="text-2xl font-extrabold mb-4">Assistance Requests</h2>
+    <div class="bento bg-white p-4 rounded-lg shadow-lg">
+        <ul>
+            {% for request in assistance_requests %}
+                <li class="mb-4">
+                    <h3 class="text-lg font-semibold">Client: {{ request.user.username }}</h3>
+                    <!-- Preview of Media -->
+                    {% for media in request.media.all %}
+                        <div>
+                            <img :src="media.media.url" class="w-48 h-48 object-cover" alt="Media Preview" @click="showModal = true; selectedRequest = request">
+                        </div>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Modal for Request Details -->
+    <div class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center" x-show="showModal">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Request Details</h2>
+            <p>Client: <span x-text="selectedRequest.user.username"></span></p>
+            <p>Description: <span x-text="selectedRequest.description"></span></p>
+            <p>Payment Method: <span x-text="selectedRequest.get_payment_method_display"></span></p>
+            <p>Assistance Type: <span x-text="selectedRequest.get_assistance_type_display"></span></p>
+            <p>Latitude: <span x-text="selectedRequest.latitude"></span></p>
+            <p>Longitude: <span x-text="selectedRequest.longitude"></span></p>
+            <p>Created At: <span x-text="selectedRequest.created_at"></span></p>
+            <button class="btn btn-primary mt-4" @click="showModal = false">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Alpine.js component for search functionality and modal control
+document.addEventListener('alpine:init', () => {
+    Alpine.data('search', () => ({
+        searchQuery: '',
+        showModal: false,
+        selectedRequest: null
+    }));
+});
+</script>
+{% endblock %}

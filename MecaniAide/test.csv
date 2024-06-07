@@ -1,0 +1,11 @@
+order_number,date_ordered,total_price,name,description,price,image_url
+ORDER001,2024-05-01 12:00:00,250.00,Engine,Oil and grease,150.00,https://picsum.photos/200/300
+ORDER002,2024-05-02 12:00:00,420.00,Tire,Rubber tire for vehicle,120.00,https://picsum.photos/200/300
+ORDER002,2024-05-02 12:00:00,420.00,Brake Pads,Brake pads for vehicles,100.00,https://picsum.photos/200/300
+ORDER003,2024-05-03 12:00:00,570.00,Battery,Car battery,200.00,https://picsum.photos/200/300
+ORDER003,2024-05-03 12:00:00,570.00,Headlight,Front light for vehicle,170.00,https://picsum.photos/200/300
+ORDER003,2024-05-03 12:00:00,570.00,Spark Plugs,Spark plugs for engine,200.00,https://picsum.photos/200/300
+ORDER004,2024-05-04 12:00:00,280.00,Brake Pads,Brake pads for vehicles,100.00,https://picsum.photos/200/300
+ORDER005,2024-05-05 12:00:00,750.00,Tire,Rubber tire for vehicle,120.00,https://picsum.photos/200/300
+ORDER005,2024-05-05 12:00:00,750.00,Battery,Car battery,200.00,https://picsum.photos/200/300
+ORDER006,2024-05-06 12:00:00,450.00,Engine,Oil and grease,150.00,https://picsum.photos/200/300

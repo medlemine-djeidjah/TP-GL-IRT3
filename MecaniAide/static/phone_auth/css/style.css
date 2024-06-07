@@ -1,0 +1,183 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #f0fff0;
+}
+
+.phoneauthform {
+  padding: 2rem 3rem;
+  max-width: 500px;
+  width: 100%;
+  -webkit-box-shadow: 0 0 2px 2px #eee;
+  box-shadow: 0 0 2px 2px #eee;
+  background-color: #fff;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.phoneauthform-title {
+  font-size: 3rem;
+  margin: 2rem 0;
+  color: #0c4b33;
+}
+
+.phoneauthform-content label {
+  display: block;
+  font-size: 1.6rem;
+  padding: 0.5rem 0;
+  letter-spacing: 1px;
+}
+
+.phoneauthform-content input {
+  padding: 1rem;
+  font-size: 1.6rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  border: 1px solid #eee;
+}
+
+.phoneauthform-content button {
+  padding: 1rem;
+  width: 100%;
+  font-size: 1.6rem;
+  margin: 2rem 0;
+  outline: 0;
+  background-color: #0c4b33;
+  opacity: 0.9;
+  color: #fff;
+  border: 0;
+}
+
+.phoneauthform-content button:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.errorlist {
+  color: red;
+  padding: 1rem;
+  font-size: 1.4rem;
+  margin: 0.5rem;
+  border-radius: 2px;
+}
+
+.errorlist li {
+  padding: 0.2rem 0;
+}
+
+.phoneauth-jumbotron {
+  box-shadow: 0 0 2px 2px #eee;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  margin: 10% 25%;
+  min-height: 30vh;
+  padding: 5rem;
+  position: relative;
+  font-size: 1.6rem;
+}
+
+.phoneauth-jumbotron h1 {
+  font-size: 3rem;
+}
+
+.dpa-help-text {
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dpa-help-text a {
+  text-decoration: none;
+  color: #0c4b33;
+}
+
+.dpa-table {
+  margin: 0 0 40px 0;
+  width: 100%;
+  display: table;
+}
+
+.dpa-table:last-child {
+  margin: 0;
+}
+
+.dpa-table-title {
+  margin: 1rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dpa-table-title a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #0c4b33;
+}
+
+.dpa-row {
+  display: table-row;
+  background: #fbfbfb;
+  padding: 0.5rem 0;
+}
+
+.dpa-cell {
+  padding: 0.5rem 1rem;
+  display: table-cell;
+}
+
+.dpa-row .dpa-cell:first-child {
+  width: 100%;
+}
+
+.dpa-cell:last-child {
+  text-align: center;
+}
+
+.dpa-cell p {
+  padding: 0.5rem 1rem;
+}
+
+.dpa-cell-btn {
+  background-color: #0c4b33;
+  color: #fff;
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border: 0;
+  border-radius: 2px;
+  outline: 0;
+  cursor: pointer;
+}
+
+.dpa-row:nth-of-type(odd) {
+  background: #eee;
+}
+
+.dpa-row.header {
+  color: #fff;
+  background: #0c4b33;
+}
+
+.message {
+  margin-bottom: 4rem;
+}

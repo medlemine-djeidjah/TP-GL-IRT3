@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+from django.db import models
+
+# Create your models here.
+=======
 from django.db import models
 
 <<<<<<< HEAD
@@ -20,3 +25,4 @@ class CarPart(models.Model):
     def __str__(self):
         return self.name
 >>>>>>> 5dc325a283b77d22535eae61e57aa24aaa759670
+>>>>>>> main

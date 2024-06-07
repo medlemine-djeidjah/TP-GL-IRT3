@@ -1,3 +1,65 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+
+{% block content %}
+<div id="mapid" x-data="map()" style="height: 100vh; width: 100vw;"></div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+function map() {
+    const myMap = L.map("mapid", {
+        center: [18.094516443901764, -15.977817993728276],
+        zoom: 15,
+        layers: [
+            L.tileLayer("https://maps.geoapify.com/v1/tile/dark-matter-yellow-roads/{z}/{x}/{y}.png?apiKey=a2faa87e609c42c6ada240cc5515642d", {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }),
+        ]
+    });
+
+    myMap.zoomControl.remove();
+    let marker;
+
+    function updateLocation(position) {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude);
+        console.log(longitude);
+
+        if (!marker) {
+            marker = L.marker([latitude, longitude]).addTo(myMap);
+        } else {
+            marker.setLatLng([latitude, longitude]);
+        }
+    }
+
+    myMap.locate({ setView: true, maxZoom: 16 }).on('locationfound', (e) => {
+        var radius = e.accuracy;
+
+        //L.circle(e.latlng, radius).addTo(myMap);
+        // Update location when location found
+        updateLocation(e);
+    }).on("locationerror", (e) => {
+        alert(e.message);
+    });
+
+    // Update location continuously using watchPosition()
+    navigator.geolocation.watchPosition((position) => {
+        updateLocation(position);
+    }, (error) => {
+        console.error('Error getting geolocation:', error);
+    }, {
+        enableHighAccuracy : true, 
+        timeout : 1000, 
+        maximumAge : 0
+    });
+
+    
+    ;
+}
+</script>
+{% endblock scripts %}
+=======
 {% extends "layout.html" %}
 
 {% block content %}
@@ -70,3 +132,4 @@ function map() {
 document.addEventListener('DOMContentLoaded', map);
 </script>
 {% endblock scripts %}
+>>>>>>> main

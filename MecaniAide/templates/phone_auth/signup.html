@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <!-- DaisyUI CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    /* Custom colors for the design */
+    body {
+      background-color: #1E293B; /* Blueish dark color */
+    }
+    .bg-custom {
+      background-color: #334155; /* Darker shade for the form background */
+    }
+    .text-custom {
+      color: #FBBF24; /* Amber color */
+    }
+    .border-custom {
+      border-color: #FBBF24; /* Amber color */
+    }
+    .focus-custom {
+      --tw-ring-color: #FBBF24; /* Amber focus ring */
+      --tw-ring-offset-color: #1E293B; /* Blueish dark offset color */
+    }
+    .hover-bg-custom {
+      background-color: #F59E0B; /* Darker amber on hover */
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <div x-data="{ show: false }" x-show="show" x-init="setTimeout(() => show = true, 100)" x-transition
+       class="max-w-md w-full bg-custom shadow-md rounded p-8 space-y-6">
+    <h2 class="text-center text-3xl font-extrabold text-custom">Sign Up</h2>
+    <form class="mt-8 space-y-6" method="POST">
+      {% csrf_token %}
+      <div class="rounded-md shadow-sm space-y-3">
+        <div class="m-1">
+
+                 <label for="id_first_name"  class="input input-bordered flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                  <input id="id_first_name" name="first_name" type="text" class="grow" placeholder="First Name" />
+                </label>
+        </div>
+        <div class="m-1">
+
+                 <label for="id_last_name"  class="input input-bordered flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                    <input id="id_last_name" name="last_name" type="text" class="grow" placeholder="Last Name" />
+                  </label>
+        </div>
+        <div class="m-1">
+                 <label for="id_username"  class="input input-bordered flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                    <input id="id_username" name="username" type="text" class="grow" placeholder="Username" />
+                  </label>
+        </div>
+        <div class="m-1">
+          
+
+                 <label for="id_email" class="input input-bordered flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
+                    <input type="email" name="email" class="grow" placeholder="Email" id="id_email" />
+                  </label>
+
+            
+        </div>
+        <div class="m-1">
+                 <label for="id_phone"  class="input input-bordered flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                    <input id="id_phone" name="phone" type="text" class="grow" placeholder="Phone" />
+                  </label>
+                 
+        </div>
+        <div class="m-1">
+                    <label for="id_password" class="input input-bordered flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" /></svg>
+                        <input id="id_password" type="password" name="password" class="grow" placeholder="password" />
+                    </label>
+        </div>
+        <div class="m-1">    
+                 <label for="id_confirm_password" class="input input-bordered flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" /></svg>
+                    <input id="id_confirm_password" type="password" name="confirm_password" class="grow" placeholder="Confirm Password" />
+                </label>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit"
+                class="btn btn-warning w-full">
+          Submit
+        </button>
+      </div>
+    </form>
+    <div class="flex items-center justify-between">
+      <div class="text-sm">
+        <a href="/accounts/login" class="font-medium text-custom hover:text-hover-bg-custom">Have an account? Log in</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
