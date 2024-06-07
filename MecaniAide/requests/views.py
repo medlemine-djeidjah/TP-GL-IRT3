@@ -6,8 +6,7 @@ from django.http import JsonResponse
 from requests.models import AssistanceMedia
 from .forms import AssistanceRequestForm, AssistanceMediaForm
 from django.contrib.auth.decorators import user_passes_test
-
-
+from django.db.models import Count
 
 @login_required
 def submit_request(request):
@@ -64,3 +63,37 @@ def delete_request(request, request_id):
     assistance_request.delete()
 
     return redirect('service_provider_requests')
+
+from django.db.models import Count, Sum
+from store.models import Order , CarPart
+
+import json
+from decimal import Decimal
+from django.core.serializers.json import DjangoJSONEncoder
+
+class CustomJSONEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)  # or str(obj)
+        return super().default(obj)
+
+@login_required
+def assistance_stats(request):
+    # Count the number of assistance requests by type
+    assistance_by_type = list(AssistanceRequest.objects.values('assistance_type').annotate(total=Count('assistance_type')).order_by('assistance_type'))
+
+    # Count the number of assistance requests by payment method
+    payment_by_method = list(AssistanceRequest.objects.values('payment_method').annotate(total=Count('payment_method')).order_by('payment_method'))
+
+    # Retrieve data for orders
+    orders_data = list(Order.objects.values('order_number').annotate(total_price=Sum('order_items__total_price')).order_by('order_number'))
+
+    # Retrieve data for car parts
+    car_parts_data = list(CarPart.objects.values('name', 'price'))
+
+    return render(request, 'assistance_stats.html', {
+        'assistance_by_type': json.dumps(assistance_by_type, cls=CustomJSONEncoder),
+        'payment_by_method': json.dumps(payment_by_method, cls=CustomJSONEncoder),
+        'orders_data': json.dumps(orders_data, cls=CustomJSONEncoder),
+        'car_parts_data': json.dumps(car_parts_data, cls=CustomJSONEncoder)
+    })

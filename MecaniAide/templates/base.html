@@ -91,23 +91,24 @@
 
                 <li>
                     <a href="{% url 'service_providers_map' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        <i class=" fas text-warning fa-wrench px-2"></i> DISPLAY SERVICE PROVIDERS
+                        <i class=" fas text-warning fa-wrench px-2"></i> DISPLAY PROVIDERS
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        <i class=" fas text-warning fa-contact-book px-2"></i> CONTACT US
+                    <a href="{% url 'assistance_stats' %}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        <i class=" fas text-warning fa-list px-2"></i> DASHBOARD
                     </a>
                 </li>
+                
                 <li>
-                    <a href="accounts/logout" class="block py-2 px-4 rounded hover:bg-gray-700">
+                    <a href="/accounts/logout" class="block py-2 px-4 rounded hover:bg-gray-700">
                         <i class=" fas text-warning fa-sign-out-alt px-2"></i> LOGOUT
                     </a>
                 </li>
             </ul>
         </nav>
     </div>
-
+    
     <!-- Main content -->
     <div :class="sidebarOpen ? 'ml-72' : 'ml-0'" class="transition-all duration-300 flex-1 h-full overflow-auto">
         {% block content %}
@@ -121,6 +122,8 @@
 
 {% block scripts %}
 {% endblock scripts %}
+
+
 <script>
     function addToCart(part) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];

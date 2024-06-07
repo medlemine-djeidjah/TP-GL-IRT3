@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto mt-4">
+    <h1 class="text-4xl font-extrabold text-center mb-6">Assistance Request Statistics</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" x-data="assistanceStats()">
+        <div class="bento bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Assistance by Type</h2>
+            <canvas id="assistanceTypeChart" x-ref="assistanceTypeChart"></canvas>
+        </div>
+        <div class="bento bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Payment Method</h2>
+            <canvas id="paymentMethodChart" x-ref="paymentMethodChart"></canvas>
+        </div>
+        <div class="bento bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Products</h2>
+            <canvas id="productsChart" x-ref="productsChart"></canvas>
+        </div>
+        <div class="bento bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Orders</h2>
+            <canvas id="ordersChart" x-ref="ordersChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x"></script>
+<script>
+function assistanceStats() {
+    return {
+        assistanceByType: {{ assistance_by_type|safe }},
+        paymentByMethod: {{ payment_by_method|safe }},
+        ordersData: {{ orders_data|safe }},
+        carPartsData: {{ car_parts_data|safe }},
+        
+        init() {
+            this.initCharts();
+        },
+
+        initCharts() {
+            // Assistance Type Chart
+            const ctx1 = this.$refs.assistanceTypeChart.getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: this.assistanceByType.map(item => item.assistance_type),
+                    datasets: [{
+                        label: 'Number of Requests',
+                        data: this.assistanceByType.map(item => item.total),
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Payment Method Chart
+            const ctx2 = this.$refs.paymentMethodChart.getContext('2d');
+            new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: this.paymentByMethod.map(item => item.payment_method),
+                    datasets: [{
+                        label: 'Number of Requests',
+                        data: this.paymentByMethod.map(item => item.total),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+
+            // Orders Chart
+            const ctx3 = this.$refs.ordersChart.getContext('2d');
+            new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: this.ordersData.map(item => item.order_number),
+                    datasets: [{
+                        label: 'Total Price',
+                        data: this.ordersData.map(item => item.total_price),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Car Parts Chart
+            const ctx4 = this.$refs.productsChart.getContext('2d');
+            new Chart(ctx4, {
+                type: 'bar',
+                data: {
+                    labels: this.carPartsData.map(item => item.name),
+                    datasets: [{
+                        label: 'Price',
+                        data: this.carPartsData.map(item => item.price),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    }
+}
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('assistanceStats', assistanceStats);
+});
+</script>
+{% endblock %}
