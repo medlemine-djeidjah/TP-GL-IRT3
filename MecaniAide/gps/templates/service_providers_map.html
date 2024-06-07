@@ -1,0 +1,65 @@
+<!-- service_providers_map.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto mt-4" x-data="mapData()">
+    <h1 class="text-4xl font-extrabold text-center mb-6">Service Providers Map</h1>
+    <div class="mb-4">
+        <label for="regionSelect" class="block text-lg font-semibold mb-2">Select a Region:</label>
+        <select id="regionSelect" class="form-select" x-model="selectedRegion">
+            <option value="">All Regions</option>
+            {% for region in regions %}
+                <option value="{{ region.id }}">{{ region.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div id="map" style="height: 600px;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function mapData() {
+    return {
+        selectedRegion: '',
+        map: null,
+        serviceProviders: {{ service_providers|json_script:"serviceProviders" }},
+        init() {
+            this.map = L.map('map').setView([20.0, -12.0], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+            }).addTo(this.map);
+
+            this.updateMarkers();
+
+            this.$watch('selectedRegion', () => {
+                this.updateMarkers();
+            });
+        },
+        updateMarkers() {
+            const selectedRegion = this.selectedRegion;
+            const providers = this.serviceProviders;
+
+            // Remove existing markers
+            this.map.eachLayer((layer) => {
+                if (layer instanceof L.Marker) {
+                    this.map.removeLayer(layer);
+                }
+            });
+
+            providers.forEach(provider => {
+                if (!selectedRegion || provider.region_id == selectedRegion) {
+                    L.marker([provider.latitude, provider.longitude])
+                        .bindPopup(`<b>${provider.user.username}</b><br>${provider.region_name}`)
+                        .addTo(this.map);
+                }
+            });
+        }
+    }
+}
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('mapData', mapData);
+});
+</script>
+{% endblock %}
+
